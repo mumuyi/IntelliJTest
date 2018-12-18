@@ -23,6 +23,13 @@
             <action id="IntelliJTest.ShowBoxes" class="cn.nuaa.ai.QueryInput" text="Query Your Input"
                     description="A test menu item"/>
         </group>
+
+        <action id="EditorBasics.EditorIllustration"
+                class="cn.nuaa.ai.EditorIllustration"
+                text="Editor Basics"
+                description="Illustrates how to plug an action in">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
