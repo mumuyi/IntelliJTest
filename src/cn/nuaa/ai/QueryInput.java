@@ -11,10 +11,15 @@ public class QueryInput extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent event) {
         Project project = event.getData(PlatformDataKeys.PROJECT);
-        Messages.showInputDialog(
+        String message = Messages.showInputDialog(
                 project,
                 "Please Input Your Query",
                 "Query",
                 Messages.getQuestionIcon());
+
+        if(!message.isEmpty())
+            System.out.println(message);
+        else
+            System.out.println("input is empty");
     }
 }

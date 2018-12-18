@@ -39,6 +39,11 @@
                     factoryClass="cn.nuaa.ai.CodeSnippetsWin">
         </toolWindow>
 
+
+        <toolWindow canCloseContents="true" anchor="bottom"
+                    id="Code Snippet Recommendation 2"
+                    factoryClass="cn.nuaa.ai.CodeRecommendationWin">
+        </toolWindow>
     </extensions>
 
 </idea-plugin>
