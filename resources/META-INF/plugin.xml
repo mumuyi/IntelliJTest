@@ -1,0 +1,44 @@
+<idea-plugin>
+
+    <!-- 插件名称，别人在官方插件库搜索你的插件时使用的名称 -->
+    <name>IntelliJTest</name>
+
+    <!-- 插件唯一id，不能和其他插件项目重复，所以推荐使用com.xxx.xxx的格式
+         插件不同版本之间不能更改，若没有指定，则与插件名称相同 -->
+    <id>cn.nuaa.ai.IntelliJTest</id>
+
+    <!-- 插件版本 -->
+    <version>1.0</version>
+
+    <!-- 供应商主页和email-->
+    <vendor url="http://www.jetbrains.com" email="support@jetbrains.com"/>
+
+    <!-- 插件定义的扩展点，以供其他插件扩展该插件 -->
+    <extensionPoints>
+    </extensionPoints>
+
+    <actions>
+        <group id="IntelliJTest.SampleMenu" text="Code Recommendation" description="Sample menu">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action id="IntelliJTest.ShowBoxes" class="cn.nuaa.ai.QueryInput" text="Query Your Input"
+                    description="A test menu item"/>
+        </group>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <!-- 自定义控制台输入 -->
+        <!--canCloseContents 允许用户关闭-->
+        <toolWindow canCloseContents="true" anchor="bottom"
+                    id="JDCompute Code Lines"
+                    factoryClass="cn.nuaa.ai.MyBottomWin">
+        </toolWindow>
+
+        <toolWindow canCloseContents="true" anchor="bottom"
+                    id="Code Snippet Recommendation"
+                    factoryClass="cn.nuaa.ai.CodeSnippetsWin">
+        </toolWindow>
+
+    </extensions>
+
+</idea-plugin>
