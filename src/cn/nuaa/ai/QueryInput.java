@@ -17,7 +17,7 @@ public class QueryInput extends AnAction {
                 "Query",
                 Messages.getQuestionIcon());
 
-        if(!message.isEmpty())
+        if(message != null && !message.isEmpty())
             System.out.println(message);
         else
             System.out.println("input is empty");

@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-public class MyListModel extends AbstractListModel<TextArea> {
+public class CSResultsListModel extends AbstractListModel<TextArea> {
 
     private static final long serialVersionUID = 1L;
 

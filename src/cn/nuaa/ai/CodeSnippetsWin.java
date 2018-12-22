@@ -9,9 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.border.Border;
 
 public class CodeSnippetsWin implements ToolWindowFactory {
 
@@ -52,7 +49,7 @@ public class CodeSnippetsWin implements ToolWindowFactory {
         mPanel.setPreferredSize(new Dimension((int) screenSize.getWidth() - 140, (int) screenSize.getHeight() / 3 * 2));
         list.setPreferredSize(new Dimension((int) screenSize.getWidth() - 140, (int) screenSize.getHeight() / 3 * 2));
 
-        MyListModel listModel = new MyListModel();
+        CSResultsListModel listModel = new CSResultsListModel();
 
         text1 = new TextArea();
         text2 = new TextArea();
@@ -68,7 +65,7 @@ public class CodeSnippetsWin implements ToolWindowFactory {
 
         list.setModel(listModel);
 
-        list.setCellRenderer(new MyCellRender());
+        list.setCellRenderer(new CSResultsCellRender());
         list.setVisibleRowCount(1);
         list.setValueIsAdjusting(true);
         list.setAutoscrolls(true);
