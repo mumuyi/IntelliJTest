@@ -18,9 +18,6 @@ public class CSResultsCellRender extends DefaultListCellRenderer {
             this.setHorizontalTextPosition(SwingConstants.LEFT);
             this.setEnabled(true);
             this.setAutoscrolls(true);
-            ImageIcon icon = new ImageIcon("./resources/CodeRecommendationImage/pageup-icon.png");
-            this.setIcon(icon);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,8 @@
 package cn.nuaa.ai;
 
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
@@ -15,6 +17,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class CodeRecommendationWin implements ToolWindowFactory {
     private ToolWindow myToolWindow;
@@ -54,6 +58,10 @@ public class CodeRecommendationWin implements ToolWindowFactory {
 
     private double csProportion1 = 0.05,csProportion2 = 0.95;
     private double apiProportion1 = 0.05,apiProportion2 = 0.55,apiProportion3 = 0.4;
+
+    private CSResultsListModel csListModel;
+    private static int pageNum = 0;
+    private static int totalPageNum = 10;
 
     @Override
     public void createToolWindowContent(@NotNull Project project,
@@ -111,15 +119,15 @@ public class CodeRecommendationWin implements ToolWindowFactory {
         csResult1 = new TextArea();
         csResult2 = new TextArea();
         csResult3 = new TextArea();
-        csResult1.setText("code snippet 111111111111");
-        csResult2.setText("code snippet 222222222222");
-        csResult3.setText("code snippet 333333333333");
+        csResult1.setText("code snippet 1");
+        csResult2.setText("code snippet 2");
+        csResult3.setText("code snippet 3");
 
         csResult1.setEditable(true);
         csResult2.setEditable(true);
         csResult3.setEditable(true);
 
-        CSResultsListModel csListModel = new CSResultsListModel();
+        csListModel = new CSResultsListModel();
         csListModel.addElement(csResult1);
         csListModel.addElement(csResult2);
         csListModel.addElement(csResult3);
@@ -133,6 +141,7 @@ public class CodeRecommendationWin implements ToolWindowFactory {
         csList.setFixedCellWidth((int) csPanel.getPreferredSize().getWidth() / 3);
         csList.setFixedCellHeight((int) csPanel.getPreferredSize().getHeight());
         csList.setVisible(true);
+
 
 
         ///构造一个 有滚动条的面板
@@ -211,6 +220,107 @@ public class CodeRecommendationWin implements ToolWindowFactory {
 
 
         //todo 设置page1 监听事件;
+        cspageUp.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("cs Page Up Bottom Clicked");
+                if(pageNum > 0) {
+                    refreshCsResultsContent();
+                    pageNum -= 1;
+                }else{
+                    System.out.println("this is the first page");
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        cspageDown.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("cs Page Down Bottom Clicked");
+                if(pageNum < totalPageNum) {
+                    refreshCsResultsContent();
+                    pageNum += 1;
+                }else{
+                    System.out.println("this is the first page");
+                }
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        csaddQuery.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String message = Messages.showInputDialog(
+                        "Please Input Your Query",
+                        "Query",
+                        Messages.getQuestionIcon());
+
+                if(message != null && !message.isEmpty())
+                    System.out.println(message);
+                else
+                    System.out.println("input is empty");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
 
         //todo 设置page2 监听事件;
         apiResultsTree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -228,5 +338,20 @@ public class CodeRecommendationWin implements ToolWindowFactory {
                 }
             }
         });
+    }
+
+
+    private void refreshCsResultsContent(){
+        //csList.removeAll();
+        //csResult1.setText("code snippet " + (pageNum*3 + 1));
+        //csResult2.setText("code snippet " + (pageNum*3 + 2));
+        //csResult3.setText("code snippet " + (pageNum*3 + 3));
+
+        csListModel.getElementAt(0).setText("code snippet " + (pageNum*3 + 1));
+        csListModel.getElementAt(1).setText("code snippet " + (pageNum*3 + 2));
+        csListModel.getElementAt(2).setText("code snippet " + (pageNum*3 + 3));
+
+        csList.setModel(csListModel);
+        csList.validate();
     }
 }
