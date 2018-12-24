@@ -17,7 +17,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class CodeRecommendationWin implements ToolWindowFactory {
+public class backupofCRW implements ToolWindowFactory {
     private ToolWindow myToolWindow;
     private JTabbedPane tabbedPane;
 
@@ -30,6 +30,8 @@ public class CodeRecommendationWin implements ToolWindowFactory {
     private JPanel csResultsPanel;
     private JPanel apiResultsPanel;
 
+    private JList csList;
+
     private JButton cspageUp;
     private JButton cspageDown;
     private JButton csaddQuery;
@@ -37,21 +39,16 @@ public class CodeRecommendationWin implements ToolWindowFactory {
     private JButton apibutton2;
     private JButton apibutton3;
 
+    private JTextArea apiInformationtextArea;
     private JTree apiResultsTree;
 
+    private JScrollPane csScroll;
     private JScrollPane apiInformationScroll;
     private JScrollPane apiResultsScroll;
-    private JScrollPane csResultsScroll1;
-    private JScrollPane csResultsScroll2;
-    private JScrollPane csResultsScroll3;
 
-    private JTextArea csResult1;
-    private JTextArea csResult2;
-    private JTextArea csResult3;
-    private JTextArea apiInformationtextArea;
-
-    private JSplitPane csResultsSplitPane1;
-    private JSplitPane csResultsSplitPane2;
+    private TextArea csResult1;
+    private TextArea csResult2;
+    private TextArea csResult3;
 
     private int screenWidth = 0;
     private int screenHeight = 0;
@@ -59,6 +56,7 @@ public class CodeRecommendationWin implements ToolWindowFactory {
     private double csProportion1 = 0.05,csProportion2 = 0.95;
     private double apiProportion1 = 0.05,apiProportion2 = 0.55,apiProportion3 = 0.4;
 
+    private CSResultsListModel csListModel;
     private static int pageNum = 0;
     private static int totalPageNum = 10;
 
@@ -70,6 +68,8 @@ public class CodeRecommendationWin implements ToolWindowFactory {
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(mainPanel, "", false);
         toolWindow.getContentManager().addContent(content);
+        //Dimension size = toolWindow.getContentManager().getComponent().getRootPane().getSize();
+        //System.out.println("size: " + size.getWidth() + " " + size.getHeight());
     }
 
     @Override
@@ -103,14 +103,19 @@ public class CodeRecommendationWin implements ToolWindowFactory {
 
         csOpPanel.setSize(new Dimension((int)(screenWidth*csProportion1), screenHeight));
         csResultsPanel.setSize(new Dimension((int)(screenWidth*csProportion2), screenHeight));
-        csResultsSplitPane1.setSize(new Dimension((int)(screenWidth*csProportion2), screenHeight));
-        csResultsSplitPane2.setSize(new Dimension((int)(screenWidth*csProportion2*0.66), screenHeight));
         apiOpPanel.setSize(new Dimension((int)(screenWidth*apiProportion1), screenHeight));
         apiResultsPanel.setSize(new Dimension((int)(screenWidth*apiProportion2), screenHeight));
         apiInformationPanel.setSize(new Dimension((int)(screenWidth*apiProportion3), screenHeight));
 
+        //mainPanel.setPreferredSize(new Dimension((int) screenSize.getWidth() - 140, (int) screenSize.getHeight() / 3 * 2));
+        //csPanel.setPreferredSize(new Dimension((int) screenSize.getWidth() - 140, (int) screenSize.getHeight() / 3 * 2));
+        //apiPanel.setPreferredSize(new Dimension((int) screenSize.getWidth() - 140, (int) screenSize.getHeight() / 3 * 2));
+        //csList.setPreferredSize(new Dimension((int) screenSize.getWidth() - 140, (int) screenSize.getHeight() / 3 * 2));
 
-        //设置Page1 内容;
+        //设置Page1 的List内容;
+        csResult1 = new TextArea();
+        csResult2 = new TextArea();
+        csResult3 = new TextArea();
         csResult1.setText("code snippet 1");
         csResult2.setText("code snippet 2");
         csResult3.setText("code snippet 3");
@@ -119,9 +124,21 @@ public class CodeRecommendationWin implements ToolWindowFactory {
         csResult2.setEditable(true);
         csResult3.setEditable(true);
 
-        csResultsPanel.setVisible(true);
-        csResultsSplitPane1.setDividerLocation(0.33);
-        csResultsSplitPane2.setDividerLocation(0.5);
+        csListModel = new CSResultsListModel();
+        csListModel.addElement(csResult1);
+        csListModel.addElement(csResult2);
+        csListModel.addElement(csResult3);
+        csList.setModel(csListModel);
+        csList.setCellRenderer(new CSResultsCellRender());
+
+        csList.setVisibleRowCount(1);
+        csList.setValueIsAdjusting(true);
+        csList.setAutoscrolls(true);
+        csList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        csList.setFixedCellWidth((int) csPanel.getPreferredSize().getWidth() / 3);
+        csList.setFixedCellHeight((int) csPanel.getPreferredSize().getHeight());
+        csList.setVisible(true);
+
 
 
         ///构造一个 有滚动条的面板
@@ -137,7 +154,7 @@ public class CodeRecommendationWin implements ToolWindowFactory {
         //scrollPane.getVerticalScrollBar().setDoubleBuffered(true);
 
 
-        //设置page2 内容;
+        //todo 设置page2 List 的内容;
         //tree根目录
         DefaultMutableTreeNode root1 = new DefaultMutableTreeNode("API Recommendation");
         //子节点
@@ -205,8 +222,8 @@ public class CodeRecommendationWin implements ToolWindowFactory {
             public void mouseClicked(MouseEvent e) {
                 System.out.println("cs Page Up Bottom Clicked");
                 if(pageNum > 0) {
-                    pageNum -= 1;
                     refreshCsResultsContent();
+                    pageNum -= 1;
                 }else{
                     System.out.println("this is the first page");
                 }
@@ -238,8 +255,8 @@ public class CodeRecommendationWin implements ToolWindowFactory {
             public void mouseClicked(MouseEvent e) {
                 System.out.println("cs Page Down Bottom Clicked");
                 if(pageNum < totalPageNum) {
-                    pageNum += 1;
                     refreshCsResultsContent();
+                    pageNum += 1;
                 }else{
                     System.out.println("this is the first page");
                 }
@@ -322,8 +339,16 @@ public class CodeRecommendationWin implements ToolWindowFactory {
 
 
     private void refreshCsResultsContent(){
-        csResult1.setText("code snippet " + (pageNum*3 + 1));
-        csResult2.setText("code snippet " + (pageNum*3 + 2));
-        csResult3.setText("code snippet " + (pageNum*3 + 3));
+        //csList.removeAll();
+        //csResult1.setText("code snippet " + (pageNum*3 + 1));
+        //csResult2.setText("code snippet " + (pageNum*3 + 2));
+        //csResult3.setText("code snippet " + (pageNum*3 + 3));
+
+        csListModel.getElementAt(0).setText("code snippet " + (pageNum*3 + 1));
+        csListModel.getElementAt(1).setText("code snippet " + (pageNum*3 + 2));
+        csListModel.getElementAt(2).setText("code snippet " + (pageNum*3 + 3));
+
+        csList.setModel(csListModel);
+        csList.validate();
     }
 }

@@ -22,6 +22,8 @@
             <add-to-group group-id="MainMenu" anchor="last"/>
             <action id="IntelliJTest.ShowBoxes" class="cn.nuaa.ai.QueryInput" text="Query Your Input"
                     description="A test menu item"/>
+            <action id="IntelliJTest.SettingPopupWin" class="cn.nuaa.ai.CRSettings" text="Settings"
+                    description="A test menu item"/>
         </group>
 
         <action id="EditorBasics.EditorIllustration"
@@ -36,21 +38,13 @@
         <!-- Add your extensions here -->
         <!-- 自定义控制台输入 -->
         <!--canCloseContents 允许用户关闭-->
-        <toolWindow canCloseContents="true" anchor="bottom"
-                    id="JDCompute Code Lines"
-                    factoryClass="cn.nuaa.ai.MyBottomWin">
-        </toolWindow>
 
         <toolWindow canCloseContents="true" anchor="bottom"
                     id="Code Snippet Recommendation"
-                    factoryClass="cn.nuaa.ai.CodeSnippetsWin">
-        </toolWindow>
-
-
-        <toolWindow canCloseContents="true" anchor="bottom"
-                    id="Code Snippet Recommendation 2"
                     factoryClass="cn.nuaa.ai.CodeRecommendationWin">
         </toolWindow>
+
+
 
         <completion.contributor language="JAVA" implementationClass="cn.nuaa.ai.MyCompletionContributor"/>
     </extensions>
