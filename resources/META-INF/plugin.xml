@@ -22,8 +22,8 @@
             <add-to-group group-id="MainMenu" anchor="last"/>
             <action id="IntelliJTest.ShowBoxes" class="cn.nuaa.ai.QueryInput" text="Query Your Input"
                     description="A test menu item"/>
-            <action id="IntelliJTest.SettingPopupWin" class="cn.nuaa.ai.CRSettings" text="Settings"
-                    description="A test menu item"/>
+            <!--<action id="IntelliJTest.SettingPopupWin" class="cn.nuaa.ai.CRSettings" text="Settings"
+                    description="A test menu item"/>-->
         </group>
 
         <action id="EditorBasics.EditorIllustration"
@@ -47,6 +47,8 @@
 
 
         <completion.contributor language="JAVA" implementationClass="cn.nuaa.ai.MyCompletionContributor"/>
+
+        <projectConfigurable implementation="cn.nuaa.ai.CRSettings"/>
     </extensions>
 
 </idea-plugin>
