@@ -2,7 +2,6 @@ package cn.nuaa.ai;
 
 import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -12,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -123,49 +121,56 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
         out.setFormat(out.getFormat().setEncoding("GBK")); // 设置输出编码
 
         try {
-            out.output(document, new FileOutputStream("C:\\Users\\ai\\Desktop\\" + "jdom2.xml"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            out.output(document, new FileOutputStream("../settings.xml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void readFiles() {
+        File file = new File("../settings.xml");
+        if(!file.exists()){
+            writeFiles();
+            return;
+        }
         //1.建立SAX解析
         SAXBuilder builder = new SAXBuilder();
         // 2.找到Document文档
         Document dc = null;
         try {
-            dc = builder.build("C:\\Users\\ai\\Desktop\\" + "jdom2.xml");
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            dc = builder.build("../settings.xml");
+        } catch (JDOMException | IOException e) {
             e.printStackTrace();
         }
+
+        //File file = new File("./");
+        //System.out.println(file.getPath() + " " + file.getAbsolutePath());
+        //System.out.println(System.getProperty("user.dir"));
+        //System.out.println(StoragePathMacros.WORKSPACE_FILE);
+
         // 3.读取根元素
         Element root = dc.getRootElement();
         // 得到全部的linkman子元素
         //List list = root.getChildren();
 
-        this.userID = ((Element) root.getChildren("userID").get(0)).getText();
-        this.IPAddress = ((Element) root.getChildren("IPAddress").get(0)).getText();
-        this.IPPort = ((Element) root.getChildren("IPPort").get(0)).getText();
-        this.csResultsNum = Integer.parseInt(((Element) root.getChildren("csResultsNum").get(0)).getText());
-        this.apiResultsNum = Integer.parseInt(((Element) root.getChildren("apiResultsNum").get(0)).getText());
-        this.Sensitivity = Double.parseDouble(((Element) root.getChildren("Sensitivity").get(0)).getText());
-        this.autoRecommendation = Boolean.parseBoolean(((Element) root.getChildren("autoRecommendation").get(0)).getText());
-        this.recordQuery = Boolean.parseBoolean(((Element) root.getChildren("recordQuery").get(0)).getText());
+        this.userID = root.getChildren("userID").get(0).getText();
+        this.IPAddress = root.getChildren("IPAddress").get(0).getText();
+        this.IPPort = root.getChildren("IPPort").get(0).getText();
+        this.csResultsNum = Integer.parseInt(root.getChildren("csResultsNum").get(0).getText());
+        this.apiResultsNum = Integer.parseInt(root.getChildren("apiResultsNum").get(0).getText());
+        this.Sensitivity = Double.parseDouble(root.getChildren("Sensitivity").get(0).getText());
+        this.autoRecommendation = Boolean.parseBoolean(root.getChildren("autoRecommendation").get(0).getText());
+        this.recordQuery = Boolean.parseBoolean(root.getChildren("recordQuery").get(0).getText());
 
-        this.androidCheckBox = Boolean.parseBoolean(((Element) root.getChildren("androidCheckBox").get(0)).getText());
-        this.socketCheckBox = Boolean.parseBoolean(((Element) root.getChildren("socketCheckBox").get(0)).getText());
-        this.SWTCheckBox = Boolean.parseBoolean(((Element) root.getChildren("SWTCheckBox").get(0)).getText());
-        this.swingCheckBox = Boolean.parseBoolean(((Element) root.getChildren("swingCheckBox").get(0)).getText());
-        this.javaWebCheckBox = Boolean.parseBoolean(((Element) root.getChildren("javaWebCheckBox").get(0)).getText());
-        this.ASTCheckBox = Boolean.parseBoolean(((Element) root.getChildren("ASTCheckBox").get(0)).getText());
-        this.eclipsePluginCheckBox = Boolean.parseBoolean(((Element) root.getChildren("eclipsePluginCheckBox").get(0)).getText());
-        this.intelliJPluginCheckBox = Boolean.parseBoolean(((Element) root.getChildren("intelliJPluginCheckBox").get(0)).getText());
-        this.multiThreadCheckBox = Boolean.parseBoolean(((Element) root.getChildren("multiThreadCheckBox").get(0)).getText());
+        this.androidCheckBox = Boolean.parseBoolean(root.getChildren("androidCheckBox").get(0).getText());
+        this.socketCheckBox = Boolean.parseBoolean(root.getChildren("socketCheckBox").get(0).getText());
+        this.SWTCheckBox = Boolean.parseBoolean(root.getChildren("SWTCheckBox").get(0).getText());
+        this.swingCheckBox = Boolean.parseBoolean(root.getChildren("swingCheckBox").get(0).getText());
+        this.javaWebCheckBox = Boolean.parseBoolean(root.getChildren("javaWebCheckBox").get(0).getText());
+        this.ASTCheckBox = Boolean.parseBoolean(root.getChildren("ASTCheckBox").get(0).getText());
+        this.eclipsePluginCheckBox = Boolean.parseBoolean(root.getChildren("eclipsePluginCheckBox").get(0).getText());
+        this.intelliJPluginCheckBox = Boolean.parseBoolean(root.getChildren("intelliJPluginCheckBox").get(0).getText());
+        this.multiThreadCheckBox = Boolean.parseBoolean(root.getChildren("multiThreadCheckBox").get(0).getText());
     }
 
     public CRSettingsEntity() {
