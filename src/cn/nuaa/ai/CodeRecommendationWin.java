@@ -199,7 +199,7 @@ public class CodeRecommendationWin implements ToolWindowFactory {
         apiInformationtextArea.setEditable(false);
 
 
-        //todo 设置page1 监听事件;
+        //设置page1 监听事件;
         cspageUp.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -302,7 +302,7 @@ public class CodeRecommendationWin implements ToolWindowFactory {
         });
 
 
-        //todo 设置page2 监听事件;
+        //设置page2 监听事件;
         apiResultsTree.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent event) {

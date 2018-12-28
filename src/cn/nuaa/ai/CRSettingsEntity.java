@@ -20,6 +20,8 @@ import java.util.List;
         reloadable = true)
 public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEntity> {
     private String userID = "default";
+    private String groupID = "default";
+    private String gitLink = "default";
     private String IPAddress = "localhost";
     private String IPPort = "8080";
     private int csResultsNum = 10;
@@ -55,6 +57,8 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
         Element Root = new Element("CodeRecommendationSettings");
 
         Element userID = new Element("userID");
+        Element groupID = new Element("groupID");
+        Element gitLink = new Element("gitLink");
         Element IPAddress = new Element("IPAddress");
         Element IPPort = new Element("IPPort");
         Element csResultsNum = new Element("csResultsNum");
@@ -78,6 +82,8 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
 
         // 设置元素内容
         userID.setText(this.userID);
+        groupID.setText(this.groupID);
+        gitLink.setText(this.gitLink);
         IPAddress.setText(this.IPAddress);
         IPPort.setText(this.IPPort);
         csResultsNum.setText("" + this.csResultsNum);
@@ -98,6 +104,8 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
 
         // 在根节点下加入节点;
         Root.addContent(userID);
+        Root.addContent(groupID);
+        Root.addContent(gitLink);
         Root.addContent(IPAddress);
         Root.addContent(IPPort);
         Root.addContent(csResultsNum);
@@ -129,7 +137,7 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
 
     private void readFiles() {
         File file = new File("../settings.xml");
-        if(!file.exists()){
+        if (!file.exists()) {
             writeFiles();
             return;
         }
@@ -154,6 +162,8 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
         //List list = root.getChildren();
 
         this.userID = root.getChildren("userID").get(0).getText();
+        this.groupID = root.getChildren("groupID").get(0).getText();
+        this.gitLink = root.getChildren("gitLink").get(0).getText();
         this.IPAddress = root.getChildren("IPAddress").get(0).getText();
         this.IPPort = root.getChildren("IPPort").get(0).getText();
         this.csResultsNum = Integer.parseInt(root.getChildren("csResultsNum").get(0).getText());
@@ -183,6 +193,14 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
     public String getIPAddress() {
         return IPAddress;
     }
+
+    public String getGroupID() { return groupID; }
+
+    public void setGroupID(String groupID) { this.groupID = groupID; }
+
+    public String getGitLink() { return gitLink; }
+
+    public void setGitLink(String gitLink) { this.gitLink = gitLink; }
 
     public String getIPPort() {
         return IPPort;

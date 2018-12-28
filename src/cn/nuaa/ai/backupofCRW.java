@@ -154,7 +154,7 @@ public class backupofCRW implements ToolWindowFactory {
         //scrollPane.getVerticalScrollBar().setDoubleBuffered(true);
 
 
-        //todo 设置page2 List 的内容;
+        //设置page2 List 的内容;
         //tree根目录
         DefaultMutableTreeNode root1 = new DefaultMutableTreeNode("API Recommendation");
         //子节点
@@ -216,7 +216,7 @@ public class backupofCRW implements ToolWindowFactory {
         apiInformationtextArea.setEditable(false);
 
 
-        //todo 设置page1 监听事件;
+        //设置page1 监听事件;
         cspageUp.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -319,7 +319,7 @@ public class backupofCRW implements ToolWindowFactory {
         });
 
 
-        //todo 设置page2 监听事件;
+        //设置page2 监听事件;
         apiResultsTree.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent event) {
