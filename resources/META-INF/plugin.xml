@@ -21,9 +21,13 @@
         <group id="IntelliJTest.SampleMenu" text="CS" description="Sample menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
             <action id="IntelliJTest.CSInput" class="cn.nuaa.ai.CSQueryInput" text="CS Query"
-                    description="A test menu item"/>
+                    description="A test menu item">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt Z"/>
+            </action>
             <action id="IntelliJTest.APIInput" class="cn.nuaa.ai.APIQueryInput" text="API Query"
-                    description="A test menu item"/>
+                    description="A test menu item">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt A"/>
+            </action>>
             <!--<action id="IntelliJTest.SettingPopupWin" class="cn.nuaa.ai.CRSettings" text="Settings"
                     description="A test menu item"/>-->
         </group>

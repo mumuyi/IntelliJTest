@@ -198,6 +198,7 @@ public class CRSettings implements Configurable{
         if(sensitivityModel.isSelected()){
             sensitivityLevel.setSelectedIndex(5);
             sensitivityLevel.setEditable(false);
+            sensitivityLevel.setEnabled (false);
             Sensitivity.setVisible(true);
             Sensitivity.setEnabled(true);
         }else {
@@ -205,6 +206,7 @@ public class CRSettings implements Configurable{
             sensitivityLevel.setSelectedIndex(cse.getSensitivityLevel());
             Sensitivity.setVisible(false);
             Sensitivity.setEnabled(false);
+            sensitivityLevel.setEnabled (true);
         }
     }
 }
