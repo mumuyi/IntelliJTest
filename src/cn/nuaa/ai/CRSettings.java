@@ -1,9 +1,7 @@
 package cn.nuaa.ai;
 
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +39,8 @@ public class CRSettings implements Configurable{
 
     private JButton gitTestButton;
 
+    private JComboBox sensitivityLevel;
+    private JRadioButton sensitivityModel;
 
     private static String disPlayName = "Code Recommendation Settings";
 
@@ -68,7 +68,9 @@ public class CRSettings implements Configurable{
                         if (cse.isAndroidCheckBox() == androidCheckBox.isSelected() && cse.isASTCheckBox() == ASTCheckBox.isSelected() && cse.isEclipsePluginCheckBox() == eclipsePluginCheckBox.isSelected() &&
                                 cse.isIntelliJPluginCheckBox() == intelliJPluginCheckBox.isSelected() && cse.isJavaWebCheckBox() == javaWebCheckBox.isSelected() && cse.isSocketCheckBox() == socketCheckBox.isSelected() &&
                                 cse.isMultiThreadCheckBox() == multiThreadCheckBox.isSelected() && cse.isSwingCheckBox() == swingCheckBox.isSelected() && cse.isSWTCheckBox() == SWTCheckBox.isSelected()) {
-                            return false;
+                            if(cse.getSensitivityLevel() == sensitivityLevel.getSelectedIndex() && cse.isSensitivityModel() == sensitivityModel.isSelected()) {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -105,6 +107,27 @@ public class CRSettings implements Configurable{
         eclipsePluginCheckBox.setSelected(cse.isEclipsePluginCheckBox());
         intelliJPluginCheckBox.setSelected(cse.isIntelliJPluginCheckBox());
         multiThreadCheckBox.setSelected(cse.isMultiThreadCheckBox());
+
+        sensitivityLevel.addItem("High");
+        sensitivityLevel.addItem("Relatively High");
+        sensitivityLevel.addItem("Middle");
+        sensitivityLevel.addItem("Relatively Low");
+        sensitivityLevel.addItem("Low");
+        sensitivityLevel.addItem("User Define");
+
+        sensitivityLevel.setSelectedIndex(cse.getSensitivityLevel());
+        sensitivityModel.setSelected(cse.isSensitivityModel());
+
+        //调整控制 Sensitivity 按钮;
+        SensitivityControl();
+
+
+        sensitivityModel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SensitivityControl();
+            }
+        });
     }
 
     private void getSettings() {
@@ -128,6 +151,9 @@ public class CRSettings implements Configurable{
         cse.setEclipsePluginCheckBox(eclipsePluginCheckBox.isSelected());
         cse.setIntelliJPluginCheckBox(intelliJPluginCheckBox.isSelected());
         cse.setMultiThreadCheckBox(multiThreadCheckBox.isSelected());
+
+        cse.setSensitivityLevel(sensitivityLevel.getSelectedIndex());
+        cse.setSensitivityModel(sensitivityModel.isSelected());
     }
 
     class gitTestButtonListener implements MouseListener{
@@ -165,6 +191,20 @@ public class CRSettings implements Configurable{
             return "link to git success";
         }else{
             return "link to git failure";
+        }
+    }
+
+    private void SensitivityControl(){
+        if(sensitivityModel.isSelected()){
+            sensitivityLevel.setSelectedIndex(5);
+            sensitivityLevel.setEditable(false);
+            Sensitivity.setVisible(true);
+            Sensitivity.setEnabled(true);
+        }else {
+            sensitivityLevel.setEditable(true);
+            sensitivityLevel.setSelectedIndex(cse.getSensitivityLevel());
+            Sensitivity.setVisible(false);
+            Sensitivity.setEnabled(false);
         }
     }
 }

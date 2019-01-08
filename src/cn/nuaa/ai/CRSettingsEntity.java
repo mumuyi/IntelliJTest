@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 @State(name = "CRSettings.xml",
         storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)},
@@ -39,6 +38,9 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
     private boolean eclipsePluginCheckBox = true;
     private boolean intelliJPluginCheckBox = true;
     private boolean multiThreadCheckBox = true;
+
+    private int sensitivityLevel = 1;
+    private boolean sensitivityModel = false;
 
     @Nullable
     @Override
@@ -77,6 +79,9 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
         Element intelliJPluginCheckBox = new Element("intelliJPluginCheckBox");
         Element multiThreadCheckBox = new Element("multiThreadCheckBox");
 
+        Element sensitivityLevel = new Element("sensitivityLevel");
+        Element sensitivityModel = new Element("sensitivityModel");
+
         // 定义一个Document对象
         Document document = new Document(Root);
 
@@ -91,6 +96,9 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
         Sensitivity.setText("" + this.Sensitivity);
         autoRecommendation.setText("" + this.autoRecommendation);
         recordQuery.setText("" + this.recordQuery);
+
+        sensitivityLevel.setText("" + this.sensitivityLevel);
+        sensitivityModel.setText("" + this.sensitivityModel);
 
         androidCheckBox.setText("" + this.androidCheckBox);
         socketCheckBox.setText("" + this.socketCheckBox);
@@ -113,6 +121,9 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
         Root.addContent(Sensitivity);
         Root.addContent(autoRecommendation);
         Root.addContent(recordQuery);
+
+        Root.addContent(sensitivityLevel);
+        Root.addContent(sensitivityModel);
 
         Root.addContent(androidCheckBox);
         Root.addContent(socketCheckBox);
@@ -171,6 +182,9 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
         this.Sensitivity = Double.parseDouble(root.getChildren("Sensitivity").get(0).getText());
         this.autoRecommendation = Boolean.parseBoolean(root.getChildren("autoRecommendation").get(0).getText());
         this.recordQuery = Boolean.parseBoolean(root.getChildren("recordQuery").get(0).getText());
+
+        this.sensitivityLevel = Integer.parseInt(root.getChildren("sensitivityLevel").get(0).getText());
+        this.sensitivityModel = Boolean.parseBoolean(root.getChildren("sensitivityModel").get(0).getText());
 
         this.androidCheckBox = Boolean.parseBoolean(root.getChildren("androidCheckBox").get(0).getText());
         this.socketCheckBox = Boolean.parseBoolean(root.getChildren("socketCheckBox").get(0).getText());
@@ -329,4 +343,12 @@ public class CRSettingsEntity implements PersistentStateComponent<CRSettingsEnti
     public void setMultiThreadCheckBox(boolean multiThreadCheckBox) {
         this.multiThreadCheckBox = multiThreadCheckBox;
     }
+
+    public int getSensitivityLevel() { return sensitivityLevel; }
+
+    public boolean isSensitivityModel() { return sensitivityModel; }
+
+    public void setSensitivityLevel(int sensitivityLevel) { this.sensitivityLevel = sensitivityLevel; }
+
+    public void setSensitivityModel(boolean sensitivityModel) { this.sensitivityModel = sensitivityModel; }
 }

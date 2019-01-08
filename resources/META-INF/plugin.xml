@@ -18,9 +18,11 @@
     </extensionPoints>
 
     <actions>
-        <group id="IntelliJTest.SampleMenu" text="Code Recommendation" description="Sample menu">
+        <group id="IntelliJTest.SampleMenu" text="CS" description="Sample menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="IntelliJTest.ShowBoxes" class="cn.nuaa.ai.QueryInput" text="Query Your Input"
+            <action id="IntelliJTest.CSInput" class="cn.nuaa.ai.CSQueryInput" text="CS Query"
+                    description="A test menu item"/>
+            <action id="IntelliJTest.APIInput" class="cn.nuaa.ai.APIQueryInput" text="API Query"
                     description="A test menu item"/>
             <!--<action id="IntelliJTest.SettingPopupWin" class="cn.nuaa.ai.CRSettings" text="Settings"
                     description="A test menu item"/>-->

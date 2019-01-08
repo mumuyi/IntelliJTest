@@ -6,15 +6,15 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 
-public class QueryInput extends AnAction {
+public class APIQueryInput extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
         Project project = event.getData(PlatformDataKeys.PROJECT);
         String message = Messages.showInputDialog(
                 project,
-                "Please Input Your Query",
-                "Query",
+                "Please Input Your Query to Get APIs",
+                "API Query",
                 Messages.getQuestionIcon());
 
         if(message != null && !message.isEmpty())
